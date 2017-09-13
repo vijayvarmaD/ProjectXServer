@@ -1,18 +1,31 @@
 module.exports = {
     schemas: {
-         
-        // User Login
+        authSchema: Joi.object().keys({
+            
+        }),
 
-        // User Signup
+        CustomerSignupSchema: Joi.object().keys({
+            name: Joi.string().required(),
+            address: Joi.string().required(),
+            phone: Joi.number().required(),
+            city: Joi.string().required()
+        }),
 
-        // Add Product to cart
+        VendorSignupSchema: Joi.object().keys({
+            role: Joi.string().required(),
+            name: Joi.string().required(),
+            address: Joi.string().required(),
+            phone: Joi.number().required(),
+            city: Joi.string().required()
+        }),
 
-        // Check Product Availability
-
-        // Checkout 
-
-        // Transactions
-
-        // 
+        DeliveryPersonSignupSchema: Joi.object().keys({
+            role: Joi.string().required(),
+            name: Joi.string().required(),
+            address: Joi.string().required(),
+            phone: Joi.number().required(),
+            city: Joi.string().required(),
+            vehicleNo: Joi.string().required()
+        }),
     }
 }

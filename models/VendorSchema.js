@@ -4,11 +4,11 @@ var ObjectId = Schema.Types.ObjectId;
 
 var VendorSchema = new Schema({
     userRole: { type: ObjectId, ref: 'UserRole' },
+    name: String,
     address: String,
     phone: Number,
     city: String,
-    createdOn: Date,
-    orderData: { type: ObjectId, ref: 'OrderData' }
+    createdOn: Date
 });
 
 module.exports = mongoose.model('Vendor', VendorSchema);

@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var DeliveryPersonSchema = new Schema({
-    userRole: { type: ObjectId, ref: 'UserRole' }, 
+    userRole: { type: ObjectId, ref: 'UserRole' },
+    name: String, 
     address: String,
     phone: Number,
     city: String,
     createdOn: Date,
-    orderData: { type: ObjectId, ref: 'OrderData' },
     vehicleno: String
 });
 
