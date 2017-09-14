@@ -18,5 +18,22 @@ signToken = (user) => {
 }
 
 module.exports = {
-    
+    signUp: async (req, res, next) => {
+        // Customer Signup
+        if(req.value.body.role == null) {
+            // Get request body values
+            const { name, address, phone, city } = req.value.body;
+            
+            // Find if a user already exists
+
+        // Vendor Signup        
+        } else if(req.value.body.role == "VENDOR") {
+
+
+        // DeliveryPerson Signup
+        } else if(req.value.body.role == "DELIVERY") {
+
+        }
+        
+    }
 }
