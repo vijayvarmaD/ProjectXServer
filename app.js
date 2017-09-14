@@ -6,7 +6,7 @@ const helmet = require('helmet');
 
 // mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://mongodb:27017/APIAuthentication');
+mongoose.connect('mongodb://localhost:27017/ProjectXDevDB');
 
 const app = express();
 app.use(helmet());

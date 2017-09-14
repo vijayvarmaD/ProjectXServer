@@ -12,13 +12,13 @@ const { validateBody } = require('../validation/Validator');
 router.route('/Signup')
     .post([
         validateBody(schemas.CustomerSignupSchema),
-        AccountsController
+        AccountsController.signUp
     ]);
 
-router.route('/Signin')
-    .post();
+// router.route('/Signin')
+//     .post();
 
-router.route('/ForgotPassword')
-    .post();
+// router.route('/ForgotPassword')
+//     .post();
 
 module.exports = router;

@@ -5,6 +5,7 @@ var ObjectId = Schema.Types.ObjectId;
 var UserRoleSchema = new Schema({
     role: String,
     name: String,
+    phone: Number,
     onlineStatus: Boolean
 });
 
