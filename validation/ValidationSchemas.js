@@ -2,10 +2,6 @@ const Joi = require('joi');
 
 module.exports = {
     schemas: {
-        authSchema: Joi.object().keys({
-            
-        }),
-
         CustomerSignupSchema: Joi.object().keys({
             name: Joi.string().required(),
             password: Joi.string().required(),
@@ -32,5 +28,11 @@ module.exports = {
             city: Joi.string().required(),
             vehicleNo: Joi.string().required()
         }),
+
+        SigninSchema: Joi.object().keys({
+            phone: Joi.number().required(),
+            password: Joi.string().required()
+        }),
+        
     }
 }

@@ -6,7 +6,7 @@ const helmet = require('helmet');
 
 // mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/ProjectXDevDB');
+mongoose.connect('mongodb://localhost:27017/ProjectXDB');
 
 const app = express();
 app.use(helmet());

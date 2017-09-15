@@ -9,52 +9,111 @@ const Vendor = require('../models/VendorSchema');
 const DeliveryPerson = require('../models/DeliveryPersonSchema');
 
 // JSON WEB TOKENS Strategy
-passport.use(new JwtStrategy({
-    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-    secretOrKey: JWT_SECRET
-}, async (payload, done) => {
-    try {
-        const customer = await Customer.findById(payload.sub);
-        const vendor = await Vendor.findById(payload.sub);
-        const deliveryperson = await DeliveryPerson.findById(payload.sub);
-        if(!customer && !vendor && !deliveryperson) {
-            return done(null, false);
-        }
-        done(null, customer);
-    } catch(error) {
-        done(error, false);
-    }
-}));
+// passport.use(
+    // customerJWT = new JwtStrategy({
+    //     jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+    //     secretOrKey: JWT_SECRET
+    // }, async (payload, done) => {
+    //     try {
+    //         const customer = await Customer.findById(payload.sub);
+    //         if(!customer) {
+    //             return done(null, false);
+    //         }
+    //         done(null, customer);
+    //     } catch(error) {
+    //         done(error, false);
+    //     }
+    // }),
+
+    // vendorJWT = new JwtStrategy({
+    //     jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+    //     secretOrKey: JWT_SECRET
+    // }, async (payload, done) => {
+    //     try {
+    //         const vendor = await Vendor.findById(payload.sub);
+    //         if(!vendor) {
+    //             return done(null, false);
+    //         }
+    //         done(null, vendor);
+    //     } catch(error) {
+    //         done(error, false);
+    //     }
+    // }),
+
+    // deliverypersonJWT = new JwtStrategy({
+    //     jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+    //     secretOrKey: JWT_SECRET
+    // }, async (payload, done) => {
+    //     try {
+    //         const deliveryperson = await DeliveryPerson.findById(payload.sub);
+    //         if(!deliveryperson) {
+    //             return done(null, false);
+    //         }
+    //         done(null, deliveryperson);
+    //     } catch(error) {
+    //         done(error, false);
+    //     }
+    // })
+// );
+
 
 // LOCAL Strategy
-passport.use(new LocalStrategy({
-    usernameField: 'phone'
-}, async (phone, password, done) => {
-    try {
-        const customer = await Customer.findOne({ phone });
-        const vendor = await Vendor.findOne({ phone });
-        const deliveryperson = await DeliveryPerson.findOne({ phone });
-        const userRole = null;
-        const userObject = null;
-        if(!customer && !vendor && !deliveryperson) {
-            return done(null, false);
-        } else {
-            if(!customer && !vendor) {
-                userRole = "DELIVERY"; 
+passport.use(
+    'customer-local', new LocalStrategy({
+        usernameField: 'phone'
+    }, async (phone, password, done) => {
+        try {
+            const customer = await Customer.findOne({ phone });
+            if(!customer) {
+                return done(null, false);
+            } 
+            const isMatch = await customer.isValidPassword(password);
+            if(!isMatch) {
+                return done(null, false);
             }
-            else if(!customer && !deliveryperson) {
-                userRole = "VENDOR"; 
-            }
-            else if(!deliveryperson && !vendor) {
-                userRole = "CUSTOMER"; 
-            }
+            done(null, customer._id)
+        } catch(error) {
+            done(error, false);
         }
-        const isMatch = await userRole.isValidPassword(password);
-        if(!isMatch) {
-            return done(null, false);
+    })
+);
+
+passport.use(
+    'vendor-local', new LocalStrategy({
+        usernameField: 'phone'
+    }, async (phone, password, done) => {
+        try {
+            const vendor = await Vendor.findOne({ phone });
+            if(!vendor) {
+                return done(null, false);
+            } 
+            const isMatch = await vendor.isValidPassword(password);
+            if(!isMatch) {
+                return done(null, false);
+            }
+            done(null, vendor._id)
+        } catch(error) {
+            done(error, false);
         }
-        done(null, )
-    } catch(error) {
-        
-    }
-}));
+    })
+);
+
+passport.use(
+    'deliveryperson-local', new LocalStrategy({
+        usernameField: 'phone'        
+    }, async (phone, password, done) => {
+        try {
+            const deliveryperson = await DeliveryPerson.findOne({ phone });
+            if(!deliveryperson) {
+                return done(null, false);
+            } 
+            const isMatch = await deliveryperson.isValidPassword(password);
+            if(!isMatch) {
+                return done(null, false);
+            }
+            done(null, deliveryperson._id)
+        } catch(error) {
+            done(error, false);
+        }
+    })
+);
