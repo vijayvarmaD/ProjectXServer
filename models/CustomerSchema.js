@@ -3,12 +3,14 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var CustomerSchema = new Schema({
-    userRole: { type: ObjectId, ref: 'UserRole' }, 
+    userRole: String, 
     name: String,
+    password: String,
     address: String,
     phone: Number,
     city: String,
-    createdOn: Date
+    createdOn: Date,
+    onlineStatus: Boolean
 });
 
 module.exports = mongoose.model('Customer', CustomerSchema);
