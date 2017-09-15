@@ -35,16 +35,16 @@ module.exports = {
             // Create new user and save in db accordingly
             const newUserRole = new UserRole({ role, name, phone, onlineStatus });
             await newUserRole.save();
-            // const foundUserRole = await UserRole.findOne({ phone });
-            // if(foundUserRole) {
-            //     const newCustomer = new Customer({ name, address, phone, city });
-            //     newCustomer.userRole = foundUserRole._id;
-            //     newCustomer.createdOn = Date.now();
-            //     await newCustomer.save();
-            //     res.status(201).json({ success: true });                
-            // } else {
-            //     res.status(403).json({ error: 'Something went wrong!' });
-            // } 
+            const foundUserRole = await UserRole.findOne({ phone });
+            if(foundUserRole) {
+                const newCustomer = new Customer({ name, address, phone, city });
+                newCustomer.userRole = foundUserRole._id;
+                newCustomer.createdOn = Date.now();
+                await newCustomer.save();
+                res.status(201).json({ success: true });                
+            } else {
+                res.status(403).json({ error: 'Something went wrong!' });
+            } 
             res.status(201).json({ success: true })  
         }
         // Vendor Signup                
