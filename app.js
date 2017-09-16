@@ -20,7 +20,9 @@ app.use(bodyParser.urlencoded({
 
 // routing
 const accounts = require('./routes/AccountsRouter');
+const products = require('./routes/ProductsRouter');
 app.use('/api/accounts', accounts);
+app.use('/api/products', products);
 
 // Catch 404 Errors
 app.use((req, res, next) => {

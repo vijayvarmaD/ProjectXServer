@@ -5,10 +5,10 @@ const { JWT_SECRET } = require('../configuration/index');
 const Customer = require('../models/CustomerSchema');
 const Vendor = require('../models/VendorSchema');
 const DeliveryPerson = require('../models/DeliveryPersonSchema');
+const Otp = require('../models/OtpSchema');
 
 // Token Signature
 signToken = (user) => {
-
     return JWT.sign({
         iss: 'AUTH',
         sub: user,
@@ -89,4 +89,18 @@ module.exports = {
         const token = signToken(req.user);
         res.status(200).json({ token });
     },
+
+    details: async (req, res, next) => {
+        // const cust = await Customer.findOne({  });
+        res.json(req.user);
+    },
+
+    otpSignupAuth: async (req, res, next) => {
+        const { userRole, name, phone, otp } = req.value.body;
+        const otpAuthenticated = await Otp.findOneAndRemove({ userRole, name, otp, phone });  
+        if(!otpAuthenticated) {
+            return res.status(403).json({ error: 'Authentication Failed! Please contact helpdesk.' });
+        }
+        next();
+    }
 }

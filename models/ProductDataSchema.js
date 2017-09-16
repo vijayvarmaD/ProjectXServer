@@ -7,7 +7,7 @@ var ProductDataSchema = new Schema({
     cuisine: String,
     ingredients: [{ type: String }],
     veg: Boolean,
-    rate: Number,
+    unitPrice: Number,
     availability: Boolean,
     createdOn: Date, 
     vendor: { type: ObjectId, ref: 'Vendor' }
