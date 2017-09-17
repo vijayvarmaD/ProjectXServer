@@ -1,11 +1,9 @@
-const JWT = require('jsonwebtoken');
-const { JWT_SECRET } = require('../configuration/index');
-
 // Models
 const Customer = require('../models/CustomerSchema');
 const Vendor = require('../models/VendorSchema');
 const DeliveryPerson = require('../models/DeliveryPersonSchema');
 const ProductData = require('../models/ProductDataSchema');
+const OrderData = require('../models/OrderDataSchema');
 
 module.exports = {
     VendorProductsList: async (req, res, next) => {
@@ -52,6 +50,51 @@ module.exports = {
             const updateAvailability = await ProductData.findByIdAndUpdate(pId, { availability });
             res.status(200).json({ success: true });
         } catch(error) {
+            next(error);
+        }
+    },
+
+    CustomerProductsList: async (req, res, next) => {
+        try {
+            const vendorsList = await Vendor.find({}, { _id: 1, name: 1 })
+            const productsByVendor = [];
+            for(var x of vendorsList) {
+                var vendor = x._id;
+                const vendorProductsMenu = await ProductData.find({ vendor, availability: true });
+                productsByVendor.push({ vendorName: x.name, vendorProductsMenu });
+            }
+            if(!productsByVendor) {
+                return res.status(403).json({ error: 'No Products found!' });
+            }
+            res.status(200).json(productsByVendor);
+        } catch(error) {
+            next(error);
+        }
+    },
+
+    // CheckProductAvailability: async (req, res, next) => {
+    //     try {
+    //         const { pId } = req.value.body;
+    //         const availabilityStatus = [];
+    //         for(var x of pId) {
+    //             const status = await ProductData.find({ _id: x }, { availability: 1 });
+    //             availabilityStatus.push(status);
+    //         }
+    //         res.status(200).json(availabilityStatus);
+    //     } catch(error) {
+    //         next(error);
+    //     }
+    // },
+
+    AddToCart: async (req, res, next) => {
+        try {
+            const { pId } = req.value.body;
+            const { availability } = await ProductData.findById(pId, { _id: 0, availability: 1 });
+            if(!availability) {
+                return res.status(403).json({ error: 'Sorry!The Product is not available!' });
+            }
+            res.status(200).json({ availability });
+        } catch (error) {
             next(error);
         }
     }

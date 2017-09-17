@@ -3,8 +3,10 @@ const router = express.Router();
 const passport = require('passport');
 const passportConf = require('../configuration/passport');
 
+// Controller
 const ProductsController = require('../controllers/Products');
 
+// Validation
 const { schemas } = require('../validation/ValidationSchemas');
 const { validateBody, validateParam } = require('../validation/Validator');
 
@@ -24,6 +26,23 @@ router.route('/Vendor/:pId/Availability').post([
     validateParam(schemas.idSchema, 'pId'),
     passport.authenticate('vendor-jwt', { session: false }),
     ProductsController.ProductAvailability
+]);
+
+router.route('/Customer/View').get([
+    passport.authenticate('customer-jwt', { session: false }),
+    ProductsController.CustomerProductsList
+]);
+
+// router.route('/Customer/checkAvail').post([
+//     validateBody(schemas.idArraySchema),
+//     passport.authenticate('customer-jwt', { session: false }),
+//     ProductsController.CheckProductAvailability
+// ]);
+
+router.route('/Cart/Add').post([
+    validateBody(schemas.cartSchema),
+    passport.authenticate('customer-jwt', { session: false }),
+    ProductsController.AddToCart    
 ]);
 
 module.exports = router;

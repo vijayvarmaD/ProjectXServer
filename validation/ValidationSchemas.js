@@ -51,6 +51,14 @@ module.exports = {
         idSchema:  Joi.object().keys({
             param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
         }),
+
+        // idArraySchema: Joi.object().keys({
+        //     pId: Joi.array().items(Joi.string().regex(/^[0-9a-fA-F]{24}$/).required())     
+        // }),
+
+        cartSchema: Joi.object().keys({
+            pId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+        })
         
     }
 }

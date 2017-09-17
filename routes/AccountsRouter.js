@@ -45,7 +45,7 @@ router.route('/DeliveryPerson/Signin').post([
     AccountsController.deliverypersonSignin
 ]);
 
-router.route('/ForgotPassword').post();
+// router.route('/ForgotPassword').post();
 
 router.route('/Customer/Details').get([
     passport.authenticate('customer-jwt', { session: false }),
