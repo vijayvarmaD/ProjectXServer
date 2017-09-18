@@ -7,6 +7,9 @@ const Vendor = require('../models/VendorSchema');
 const DeliveryPerson = require('../models/DeliveryPersonSchema');
 const Otp = require('../models/OtpSchema');
 
+const WalletsController = require('../controllers/Wallets');
+
+
 // Token Signature
 signToken = (user) => {
     return JWT.sign({
@@ -23,6 +26,9 @@ module.exports = {
         const { name, password, address, phone, city } = req.value.body;
         const userRole = "CUSTOMER";
         const onlineStatus = false;
+
+        // req copy for wallet creation
+        const reqCopy = { phone, userRole };
             
         // Find if a user already exists
         const foundCustomer = await Customer.findOne({ phone });
@@ -36,13 +42,19 @@ module.exports = {
         await newCustomer.save();
 
         // Response
-        res.status(201).json({ success: true });  
+        res.status(201).json({ success: true });
+        
+        // Wallet Creation call
+        WalletsController.createWalletForUser(reqCopy);
     },
 
     vendorSignup: async (req, res, next) => {
         // Store request body values
         const { userRole, name, password, address, phone, city } = req.value.body;
         const onlineStatus = false;
+
+        // req copy for wallet creation
+        const reqCopy = { phone, userRole };
 
         // Find if a user already exists
         const foundVendor = await Vendor.findOne({ phone });
@@ -55,6 +67,9 @@ module.exports = {
         newVendor.createdOn = Date.now();
         await newVendor.save();
         res.status(201).json({ success: true });
+
+        // Wallet Creation call
+        WalletsController.createWalletForUser(reqCopy);
     },
 
     deliverypersonSignup: async (req, res, next) => {
@@ -62,6 +77,9 @@ module.exports = {
         const { userRole, name, password, address, phone, city, vehicleno } = req.value.body;
         const onlineStatus = false;
 
+        // req copy for wallet creation
+        const reqCopy = { phone, userRole };
+        
         // Find if a user already exists
         const foundDeliveryPerson = await DeliveryPerson.findOne({ phone });
         if(foundDeliveryPerson) {
@@ -73,6 +91,9 @@ module.exports = {
         newDeliveryPerson.createdOn = Date.now();
         await newDeliveryPerson.save();
         res.status(201).json({ success: true });
+
+        // Wallet Creation call
+        WalletsController.createWalletForUser(reqCopy);
     },  
 
     customerSignin: async (req, res, next) => {

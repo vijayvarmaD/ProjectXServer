@@ -4,6 +4,7 @@ const passport = require('passport');
 const passportConf = require('../configuration/passport');
 
 const AccountsController = require('../controllers/Accounts');
+const WalletsController = require('../controllers/Wallets');
 
 const { schemas } = require('../validation/ValidationSchemas');
 const { validateBody } = require('../validation/Validator');
@@ -17,7 +18,7 @@ router.route('/Customer/Signup').post([
 router.route('/Vendor/Signup').post([
     validateBody(schemas.VendorSignupSchema),
     AccountsController.otpSignupAuth,
-    AccountsController.vendorSignup
+    AccountsController.vendorSignup   
 ]);
 
 router.route('/DeliveryPerson/Signup').post([
