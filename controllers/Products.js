@@ -86,7 +86,7 @@ module.exports = {
     //     }
     // },
 
-    AddToCart: async (req, res, next) => {
+    CheckAvail: async (req, res, next) => {
         try {
             const { pId } = req.value.body;
             const { availability } = await ProductData.findById(pId, { _id: 0, availability: 1 });

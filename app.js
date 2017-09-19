@@ -22,9 +22,11 @@ app.use(bodyParser.urlencoded({
 const accounts = require('./routes/AccountsRouter');
 const products = require('./routes/ProductsRouter');
 const wallets = require('./routes/WalletsRouter');
+const orders = require('./routes/OrdersRouter');
 app.use('/api/accounts', accounts);
 app.use('/api/products', products);
 app.use('/api/wallets', wallets);
+app.use('/api/orders', orders);
 
 // Catch 404 Errors
 app.use((req, res, next) => {

@@ -42,7 +42,7 @@ router.route('/Customer/View').get([
 router.route('/Cart/Add').post([
     validateBody(schemas.cartSchema),
     passport.authenticate('customer-jwt', { session: false }),
-    ProductsController.AddToCart    
+    ProductsController.CheckAvail    
 ]);
 
 module.exports = router;

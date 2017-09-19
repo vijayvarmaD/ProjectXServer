@@ -77,5 +77,18 @@ module.exports = {
         } catch (error) {
             next(error);
         }
+    },
+
+    sufficientFundsCheck: async (customer, totalAmt) => {
+        try {
+            const walletBalance = await Wallet.findOne({ userId: customer, userRole: "CUSTOMER" }, { balance: 1 });
+            if(walletBalance >= totalAmt) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            next(error);
+        }
     }
 }

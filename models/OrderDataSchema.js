@@ -8,6 +8,8 @@ var OrderDataSchema = new Schema({
         "productId": { type: ObjectId, ref: 'ProductData' },
         "quantity": { type: Number } 
     }],
+    totalAmt: Number,
+    transactionId: { type: ObjectId, ref: 'OrderData' },
     customer: { type: ObjectId, ref: 'Customer' },
     vendor: { type: ObjectId, ref: 'Vendor' },
     deliveryPerson: { type: ObjectId, ref: 'DeliveryPerson' }

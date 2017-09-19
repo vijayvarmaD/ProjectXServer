@@ -1,5 +1,11 @@
 const Joi = require('joi');
 
+// products array validation for orderSchema
+const productsSchema = {
+    productId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    quantity: Joi.number().required()
+};
+
 module.exports = {
     schemas: {
         CustomerSignupSchema: Joi.object().keys({
@@ -58,6 +64,11 @@ module.exports = {
 
         cartSchema: Joi.object().keys({
             pId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+        }),
+
+        orderSchema: Joi.object().keys({
+            products: Joi.array().min(1).items(Joi.object(productsSchema).required()),
+            customer: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
         })
         
     }
