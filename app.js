@@ -3,12 +3,17 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const socket = require('socket.io');
 
 // mongoose
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/ProjectXDB');
 
 const app = express();
+
+// Static Files
+app.use(express.static('public'));
+
 app.use(helmet());
 
 // middleware
@@ -52,4 +57,14 @@ app.use((err, req, res, next) => {
 
 // Start the server
 const port = app.get('port') || 3000;
-app.listen(port, () => console.log('Server is listening on port '+ port));
+var server = app.listen(port, () => console.log('Server is listening on port '+ port));
+
+// Socket Setup
+var io = socket(server);
+
+io.on('connection', (socket) => {
+    console.log('made socket connection', socket.id); 
+    function OrderSuccess() {
+        io.socket()
+    }
+});

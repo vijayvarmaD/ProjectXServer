@@ -74,7 +74,7 @@ module.exports = {
 
     deliverypersonSignup: async (req, res, next) => {
         // Store request body values
-        const { userRole, name, password, address, phone, city, vehicleno } = req.value.body;
+        const { userRole, name, password, address, phone, city, vehicleNo } = req.value.body;
         const onlineStatus = false;
 
         // req copy for wallet creation
@@ -87,7 +87,7 @@ module.exports = {
         }
 
         // Create new user and save in db accordingly
-        const newDeliveryPerson = new DeliveryPerson({ userRole, name, password, address, phone, city, vehicleno });
+        const newDeliveryPerson = new DeliveryPerson({ userRole, name, password, address, phone, city, vehicleNo });
         newDeliveryPerson.createdOn = Date.now();
         await newDeliveryPerson.save();
         res.status(201).json({ success: true });

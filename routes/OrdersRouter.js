@@ -10,7 +10,7 @@ const { validateBody, validateParam } = require('../validation/Validator');
 
 router.route('/Submit').post([
     validateBody(schemas.orderSchema),
-    //passport.authenticate('customer-jwt', { session: false }),
+    passport.authenticate('customer-jwt', { session: false }),
     OMS.orderSubmit
 ]);
 

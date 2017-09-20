@@ -3,9 +3,9 @@ const Transaction = require('../models/TransactionSchema');
 const Wallet = require('../models/WalletSchema');
 
 module.exports = {
-    C2L: async (totalAmt, customer, ledger) => {
+    C2L: async (totalAmt, customerWalletId, ledger) => {
         // STEP:1 --> Get wallet details and value
-        const source = customer;
+        const source = customerWalletId;
         const destination = ledger;
         const value = totalAmt;
 
@@ -79,6 +79,9 @@ module.exports = {
               $currentDate: { lastModified: true }
             }
         );
+        const TData = await Transaction.findById(t._id);
+        return TData;
+        
 
         // if any errors check pendingTransactions array reading in db operations
         // test transactions

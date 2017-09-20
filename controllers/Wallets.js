@@ -81,11 +81,11 @@ module.exports = {
 
     sufficientFundsCheck: async (customer, totalAmt) => {
         try {
-            const walletBalance = await Wallet.findOne({ userId: customer, userRole: "CUSTOMER" }, { balance: 1 });
-            if(walletBalance >= totalAmt) {
-                return true;
+            const { balance, _id } = await Wallet.findOne({ userId: customer, userRole: "CUSTOMER" }, { balance: 1 });
+            if(balance >= totalAmt) {
+                return _id;
             } else {
-                return false;
+                return _id;
             }
         } catch (error) {
             next(error);

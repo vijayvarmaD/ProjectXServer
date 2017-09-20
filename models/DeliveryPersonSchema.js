@@ -11,7 +11,7 @@ var DeliveryPersonSchema = new Schema({
     phone: Number,
     city: String,
     createdOn: Date,
-    vehicleno: String,
+    vehicleNo: String,
     onlineStatus: Boolean
 });
 
