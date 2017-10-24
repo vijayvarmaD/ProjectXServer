@@ -79,7 +79,6 @@ const port = app.get('port') || 3000;
 var server = app.listen(port, () => console.log('Server is listening on port '+ port));
 
 // Socket Setup
-<<<<<<< HEAD
 const { sendMsg } = require('./services/sock');
 var io = socket(server);
 module.exports = io;
@@ -91,17 +90,4 @@ io.on('connection', (socket) => {
     });
 });
 
-=======
-const socket = require('socket.io').listen(server);
-
-// io.sockets.on('connection', (socket) => {
-//     socket.on('join room', (data) => {
-//        socket.join(data.room);
-//        console.log('joined room' + data.room); 
-//     });
-//     socket.on('orderCompleted', (data) => {
-        
-//     });
-// });
->>>>>>> 55084033715c1a998b821eac66bd5dfe8703e055
 
