@@ -118,7 +118,7 @@ module.exports = {
 
     otpSignupAuth: async (req, res, next) => {
         const { userRole, name, phone, otp } = req.value.body;
-        const otpAuthenticated = await Otp.findOneAndRemove({ userRole, name, otp, phone });  
+        const otpAuthenticated = await Otp.findOneAndRemove({ userRole, name, otp, phone }); 
         if(!otpAuthenticated) {
             return res.status(403).json({ error: 'Authentication Failed! Please contact helpdesk.' });
         }

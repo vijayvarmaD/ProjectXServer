@@ -13,6 +13,8 @@ module.exports = {
             if(!vendorProducts) {
                 return res.status(403).json({ error: 'No Products found!' });
             }
+            // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+            // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
             res.status(200).json(vendorProducts);
         } catch(error) {
             next(error);            
