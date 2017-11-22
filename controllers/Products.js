@@ -4,6 +4,14 @@ const Vendor = require('../models/VendorSchema');
 const DeliveryPerson = require('../models/DeliveryPersonSchema');
 const ProductData = require('../models/ProductDataSchema');
 const OrderData = require('../models/OrderDataSchema');
+const multer = require('multer');
+const fs = require('fs');
+
+// Upload DIR
+var uploadDir = '../uploads/';
+
+// Multer
+var upload = multer({ dest: uploadDir }).single('photo');
 
 module.exports = {
     VendorProductsList: async (req, res, next) => {
@@ -35,6 +43,12 @@ module.exports = {
 
             // Create new product and save in db
             const newProduct = new ProductData({ name, cuisine, ingredients, veg, unitPrice, vendor });
+            
+            // Img sent to db
+            // var newImg = fs.readFileSync('../uploads/pic.jpg');
+            // var encImg = newImg.toString('base64');
+            // newProduct.img = 'roti';
+
             newProduct.createdOn = Date.now();
             newProduct.availability = true;
             await newProduct.save();
@@ -96,6 +110,22 @@ module.exports = {
                 return res.status(403).json({ error: 'Sorry!The Product is not available!' });
             }
             res.status(200).json({ availability });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    UploadImg: async (req, res, next) => {
+        try {
+            var path = '';
+            upload(req, res, (err) => {
+                if(err) {
+                    console.log(err);
+                    return res.status(422).send("An error occurred");
+                }
+                path = req.file.path;
+                return res.status(200).json({ msg: "Upload completed"});
+            });
         } catch (error) {
             next(error);
         }

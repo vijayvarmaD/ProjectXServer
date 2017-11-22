@@ -45,4 +45,8 @@ router.route('/Cart/Add').post([
     ProductsController.CheckAvail    
 ]);
 
+router.route('/Vendor/UploadImg').post([
+    ProductsController.UploadImg
+]);
+
 module.exports = router;
