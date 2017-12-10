@@ -66,6 +66,20 @@ module.exports = {
             pId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
         }),
 
+        DeleteProductSchema: Joi.object().keys({
+            pId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+        }),
+
+        EditProductSchema: Joi.object().keys({
+            pId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+            name: Joi.string().required(),
+            cuisine: Joi.string().required(),
+            ingredients: [  Joi.array() ],
+            veg: Joi.boolean().required(),
+            unitPrice: Joi.number().required(),
+            vendor: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+        }),
+
         orderSchema: Joi.object().keys({
             products: Joi.array().min(1).items(Joi.object(productsSchema).required()),
             customer: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()

@@ -59,6 +59,36 @@ module.exports = {
         } 
     },
 
+    VendorDeleteProduct: async (req, res, next) => {
+        try {
+            const { pId } = req.value.body;
+            const vendor = req.user._id;
+            const deletedProduct = await ProductData.findOneAndRemove({ _id: pId, vendor });
+            if(deletedProduct) {
+                return res.status(200).json({ success: true });
+            } else {
+                return res.status(403).json({ error: 'The delete action has failed' });
+            }
+        } catch(error) {
+            next(error);
+        }
+    },
+
+    VendorEditProduct: async (req, res, next) => {
+        try {
+            const { pId, name, cuisine, ingredients, veg, unitPrice, vendor } = req.value.body;
+            const loggedInVendor = req.user._id;
+            if(String(loggedInVendor) === vendor) {
+                const editedProduct = await ProductData.findByIdAndUpdate( pId, { name, cuisine, ingredients, veg, unitPrice });
+                if(editedProduct) {
+                    res.status(200).json({ success: true });
+                }
+            }
+        } catch (error) {
+            next(error);            
+        }
+    },
+
     ProductAvailability: async (req, res, next) => {
         try {
             const { pId } = req.value.params;

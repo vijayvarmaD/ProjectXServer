@@ -21,6 +21,18 @@ router.route('/Vendor/AddProduct').post([
     ProductsController.VendorAddProduct
 ]);
 
+router.route('/Vendor/DeleteProduct').post([
+    validateBody(schemas.DeleteProductSchema),
+    passport.authenticate('vendor-jwt', { session: false }),
+    ProductsController.VendorDeleteProduct
+]);
+
+router.route('/Vendor/EditProduct').post([
+    validateBody(schemas.EditProductSchema),
+    passport.authenticate('vendor-jwt', { session: false }),
+    ProductsController.VendorEditProduct
+]);
+
 router.route('/Vendor/:pId/Availability').post([
     validateBody(schemas.ProductAvailabilitySchema),
     validateParam(schemas.idSchema, 'pId'),
