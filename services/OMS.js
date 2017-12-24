@@ -5,36 +5,44 @@ const DeliveryPerson = require('../models/DeliveryPersonSchema');
 const OrderData = require('../models/OrderDataSchema');
 const Wallet = require('../models/WalletSchema');
 const ProductData = require('../models/ProductDataSchema');
+// const io = require('../app');
 
 // Controllers
 const WalletsController = require('../controllers/Wallets');
 const TransactionsController = require('../controllers/Transactions');
 
+// Services
+const sock = require('../services/sock');
+
 module.exports = {
     orderSubmit: async (req, res, next) => {
         // STEP:1 --> Get Order Details
-        const { products, customer } = req.value.body;
-        const orderData = new OrderData({ products, customer });
+        const { cart } = req.value.body;
+        const vendor = req.value.body.vendor;
+        const customer = req.user._id;
+        const orderData = new OrderData({ products: cart, customer });
         
         // STEP:2 --> Calculate Total Cost
         var totalAmt = 0;
-        for(var x of products) {
+        for(var x of cart) {
             const { unitPrice } = await ProductData.findOne({ _id: x.productId }, { unitPrice: 1, _id: 0 });
             totalAmt += ( unitPrice * x.quantity );
         }  
-        if(totalAmt >= 0) {
+        if(totalAmt <= 0) {
             // send back response -ve
+            console.log('negtive response to be sent - stpe 2 OMS');
         }
 
         // STEP:3 --> Check with Wallet Controller if there are sufficient funds in the user's wallet
         customerWalletId = await WalletsController.sufficientFundsCheck(customer, totalAmt);
-        if(!customerWalletId) {
+        if(customerWalletId === 'insufficient') {
             // send response -ve
+            console.log('insufficient');
         } 
 
         // STEP:4 --> Proceed to Transaction Controller , depending on T success proceed
         // ledger wallet id 
-        var ledger = "59c225a953b19d6ae200a8ea";        
+        var ledger = "5a3e0f53a67e6a8e59759e2b";        
         const TData = await TransactionsController.C2L(totalAmt, customerWalletId, ledger);
         if(TData) {
             // send response to client +ve and spin up the loaders            
@@ -44,7 +52,17 @@ module.exports = {
             res.status(403).json({ error: "Payment failed" });
         }
         
-        // Process continues after response
+        // Process continues after response - Collect Socket IDs for dispatching Notifications
+        let customerSocketId = null;
+        let vendorSocketId = null;
+        users.forEach(element => {
+            if (element.userId.toString() == customer.toString()) {
+                customerSocketId = element.socketId;
+            } else if (element.userId.toString() === vendor.toString()) {
+                vendorSocketId = element.socketId;
+            }
+        });
+
 
         // STEP:5 --> Store the TID in "OrderData" temporarily
         orderData.transactionId = TData._id;
@@ -54,11 +72,16 @@ module.exports = {
         orderData.deliveryPerson = "59c254fa6362f93300b270ba";
 
         // STEP:7 --> Send Notification to Vendor
+        if (vendorSocketId != null) {
+            console.log('here');
+            io.sockets.to(vendorSocketId).emit('new-order-alert', { oId: orderData._id });
+        }
 
         // STEP:8 --> Send Notification to DeliveryPerson
 
         // STEP:9 --> Enter data into "OrderTrackingSchema" and then EXIT!!!!!
         await orderData.save();
+        
     },
 
     orderSuccess: async () => {

@@ -60,7 +60,6 @@ passport.use(
     })
 );
 
-
 // LOCAL Strategy
 passport.use(
     'customer-local', new LocalStrategy({

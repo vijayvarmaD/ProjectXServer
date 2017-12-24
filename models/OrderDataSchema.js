@@ -5,6 +5,7 @@ var ObjectId = Schema.Types.ObjectId;
 var OrderDataSchema = new Schema({
     datetime: Date, 
     products: [{
+        _id: false,
         "productId": { type: ObjectId, ref: 'ProductData' },
         "quantity": { type: Number } 
     }],

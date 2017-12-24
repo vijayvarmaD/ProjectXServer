@@ -5,12 +5,20 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const socket = require('socket.io');
 const cors = require('cors');
+const passport = require('passport');
+const socketioJwt = require('socketio-jwt');
+const { JWT_SECRET } = require('./configuration/index');
+const jwt_decode = require('jwt-decode');
 
+const Customer = require('./models/CustomerSchema');
+const Vendor = require('./models/VendorSchema');
+const DeliveryPerson = require('./models/DeliveryPersonSchema');
 // mongoose
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/ProjectXDB');
 
 const app = express();
+module.exports = app;
 
 // Static Files
 app.use(express.static('public'));
@@ -64,16 +72,31 @@ app.use((err, req, res, next) => {
 const port = app.get('port') || 3000;
 var server = app.listen(port, () => console.log('Server is listening on port '+ port));
 
-// Socket Setup
-const { sendMsg } = require('./services/sock');
-var io = socket(server);
-module.exports = io;
-io.on('connection', (socket) => {
-    console.log('made socket connection', socket.id); 
-    // io.emit('something happened', "i m server");
-    socket.on('chat message', function(msg){
-        sendMsg(msg);
+// SocketIO Initialization
+global.io = socket(server);
+
+// JWT Auth
+io.set('authorization', socketioJwt.authorize({
+    secret: JWT_SECRET,
+    handshake: true
+}));
+
+// Global Connected users Array
+global.users = [];
+
+// First entry
+io.on('connection', async (socket) => {
+    const decoded = jwt_decode(socket.handshake.query.token);
+    const customer = await Customer.findById(decoded.sub, { "_id": 1 });
+    const vendor = await Vendor.findById(decoded.sub, { "_id": 1 });
+    if (customer === null) {
+        users.push({ socketId: socket.id, userId: vendor._id });
+    } 
+    if (vendor === null) {
+        users.push({ socketId: socket.id, userId: customer._id });
+    }
+    io.on('disconnect', () => {
+        console.log('user disconnected');
     });
 });
-
 

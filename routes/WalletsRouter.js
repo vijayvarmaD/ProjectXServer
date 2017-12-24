@@ -8,8 +8,7 @@ const WalletsController = require('../controllers/Wallets');
 const { schemas } = require('../validation/ValidationSchemas');
 const { validateBody, validateParam } = require('../validation/Validator');
 
-router.route('/Customer/Details/:cId').get([
-    validateParam(schemas.idSchema, 'cId'),
+router.route('/Customer/Details').get([
     passport.authenticate('customer-jwt', { session: false }),
     WalletsController.customerDetails
 ]);

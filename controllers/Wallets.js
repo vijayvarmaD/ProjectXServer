@@ -42,7 +42,7 @@ module.exports = {
 
     customerDetails: async (req, res, next) => {
         try {
-            const { cId } = req.params;
+            const cId = req.user._id;
             const walletDetails = await Wallet.findOne({ userId: cId, userRole: "CUSTOMER" } , { _id: 0, balance: 1, transactionHistory: 1 });
             if(!walletDetails) {
                 return res.status(403).json({ error: 'The Customer you requested for is not found' });
@@ -85,7 +85,7 @@ module.exports = {
             if(balance >= totalAmt) {
                 return _id;
             } else {
-                return _id;
+                return 'insufficient';
             }
         } catch (error) {
             next(error);
