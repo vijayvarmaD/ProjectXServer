@@ -8,10 +8,10 @@ const multer = require('multer');
 const fs = require('fs');
 
 // Upload DIR
-var uploadDir = '../uploads/';
+// var uploadDir = '../uploads/';
 
-// Multer
-var upload = multer({ dest: uploadDir }).single('photo');
+// // Multer
+// var upload = multer({ dest: uploadDir }).single('photo');
 
 module.exports = {
     VendorProductsList: async (req, res, next) => {
@@ -145,19 +145,19 @@ module.exports = {
         }
     },
 
-    UploadImg: async (req, res, next) => {
-        try {
-            var path = '';
-            upload(req, res, (err) => {
-                if(err) {
-                    console.log(err);
-                    return res.status(422).send("An error occurred");
-                }
-                path = req.file.path;
-                return res.status(200).json({ msg: "Upload completed"});
-            });
-        } catch (error) {
-            next(error);
-        }
-    }
+    // UploadImg: async (req, res, next) => {
+    //     try {
+    //         var path = '';
+    //         upload(req, res, (err) => {
+    //             if(err) {
+    //                 console.log(err);
+    //                 return res.status(422).send("An error occurred");
+    //             }
+    //             path = req.file.path;
+    //             return res.status(200).json({ msg: "Upload completed"});
+    //         });
+    //     } catch (error) {
+    //         next(error);
+    //     }
+    // }
 }    
