@@ -15,7 +15,7 @@ const Vendor = require('./models/VendorSchema');
 const DeliveryPerson = require('./models/DeliveryPersonSchema');
 // mongoose
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/ProjectXDB');
+mongoose.connect('mongodb://express:express@ds163053.mlab.com:63053/eatupdb');
 
 const app = express();
 module.exports = app;
