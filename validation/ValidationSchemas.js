@@ -84,6 +84,10 @@ module.exports = {
             cart: Joi.array().min(1).items(Joi.object(productsSchema).required()),
             totalAmount: Joi.number().required(),
             vendor: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+        }),
+
+        orderIdSchema: Joi.object().keys({
+            oId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
         })
         
     }
