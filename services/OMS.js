@@ -69,7 +69,7 @@ module.exports = {
 
         // STEP:6 --> Proceed to Delivery Person Assignment & store in OrderData
         // Setup a logic to choose a delivery person from a pool and then provide DP ID
-        orderData.deliveryPerson = "59c254fa6362f93300b270ba";
+        orderData.deliveryPerson = "59bc1305b420c308d4d95ea9";
 
         // STEP:7 --> Send Notification to Vendor
         if (vendorSocketId != null) {
