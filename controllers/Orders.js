@@ -23,7 +23,7 @@ module.exports = {
 
             // Attach product details
             orderData.products.forEach(element => {
-                const orderInfo = await ProductData.findById(element.productId, { name: 1, veg: 1 });
+                const orderInfo = await ProductData.findById(element.productId);
                 element.name = orderInfo.name;
                 element.veg = orderInfo.veg;
             });
