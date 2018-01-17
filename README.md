@@ -1,7 +1,7 @@
 Swiggy Clone
 
 Description:- I have tried to implement the core features of an online food delivery app. This project is an API built with node,
-which would be consumed by an Angular 4 front end. I have designed this application by assuming various processes, that are followed 
+which would be consumed by an Angular front end. I have designed this application by assuming various processes, that are followed 
 for food delivery business model. 
 
 #: NODE.JS, JWT, SOCKET.IO, MONGODB, MONGOOSE, PASSPORT.JS  
@@ -21,6 +21,8 @@ customer wallet is done to proceed for transaction. The amount is added to the a
 proceeds for delivery assignment. Once, the Transaction is successfull, response is sent to the client and from then on the client would 
 recieve updates via websockets, which would update all the steps like delivery assignment etc.
 
+4. Notifications: Real time data services enhance user experience and efficiency of the server by responding to client at the earliest thereby reducing the load on server. In this application, 'Socket.IO' a framework for real time comm using websockets protocol has been used to notify the client on various updates. ex: 'New-Order' notif to vendor, 'order-dispatched' notif to customer, 'Delivery details' notif to delivery person etc. 
+
 ** Note:- The Notification system & DeliveryPerson Assignment is still a Work-In-Progress.
 
 Core Implementation:-
@@ -35,4 +37,6 @@ code clean and clear.
 4. Transactions: Since, there was no direct Transaction support in MongoDB as opposed to sql databases, i have implemented the wallet 
 transactions using "2 Phase Commit System". The official mongodb docs have suggested to follow this system. Although, transactions
 aren't preferred to be done using a NOSQL database.  
+
+Deployment: The api has been deployed to heroku and hosted on 'https://eatup-api.herokuapp.com/'.
 
