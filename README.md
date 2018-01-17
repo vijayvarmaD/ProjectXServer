@@ -1,4 +1,4 @@
-#Swiggy Clone
+# Swiggy Clone
 
 Description:- I have tried to implement the core features of an online food delivery app. This project is an API built with node,
 which would be consumed by an Angular front end. I have designed this application by assuming various processes, that are followed 
