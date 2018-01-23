@@ -26,9 +26,6 @@ module.exports = {
             if(!customerName) {
                 return res.status(403).json({ error: 'The customer name was not found' });
             }
-            orderData.customerName = customerName;
-            console.log('query',customerName);
-            console.log('data', orderData);
 
             // Attach product details
             for(let element of orderData.products) {
@@ -51,7 +48,7 @@ module.exports = {
             }
             orderData.deliveryPerson = dpDetails;
             
-            res.status(200).json({ orderData });
+            res.status(200).json({ orderData, customerName });
         } catch (error) {
             next(error);
         }
