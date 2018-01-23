@@ -21,6 +21,13 @@ module.exports = {
                 return res.status(403).json({ error: 'The order is you requested is not found.' });
             }
 
+            // Find Customer Name from db
+            const customerName = await Customer.findById(orderData.customer, { name: 1 });
+            if(!customerName) {
+                return res.status(403).json({ error: 'The customer name was not found' });
+            }
+            orderData.customerName = customerName;
+
             // Attach product details
             for(let element of orderData.products) {
                 const orderInfo = await ProductData.findById(element.productId, { name: 1, veg: 1 });
