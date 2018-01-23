@@ -27,6 +27,8 @@ module.exports = {
                 return res.status(403).json({ error: 'The customer name was not found' });
             }
             orderData.customerName = customerName;
+            console.log('query',customerName);
+            console.log('data', orderData);
 
             // Attach product details
             for(let element of orderData.products) {
@@ -48,7 +50,7 @@ module.exports = {
                 return res.status(403).json({ error: 'Unable to find deliveryPerson details' });
             }
             orderData.deliveryPerson = dpDetails;
-
+            
             res.status(200).json({ orderData });
         } catch (error) {
             next(error);
