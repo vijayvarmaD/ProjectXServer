@@ -13,7 +13,8 @@ var OrderDataSchema = new Schema({
     transactionId: { type: ObjectId, ref: 'OrderData' },
     customer: { type: ObjectId, ref: 'Customer' },
     vendor: { type: ObjectId, ref: 'Vendor' },
-    deliveryPerson: { type: ObjectId, ref: 'DeliveryPerson' }
+    deliveryPerson: { type: ObjectId, ref: 'DeliveryPerson' },
+    orderStatus: String
 });
 
 module.exports = mongoose.model('OrderData', OrderDataSchema);

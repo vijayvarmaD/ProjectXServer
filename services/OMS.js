@@ -80,6 +80,7 @@ module.exports = {
         // STEP:8 --> Send Notification to DeliveryPerson
 
         // STEP:9 --> Enter data into "OrderTrackingSchema" and then EXIT!!!!!
+        orderData.orderStatus = "Placed";
         await orderData.save();
         
     },

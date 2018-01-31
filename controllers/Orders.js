@@ -58,8 +58,7 @@ module.exports = {
         try {
             const vendor = req.user._id;
 
-            const orderData = await OrderData.find({ vendor });
-            console.log(orderData);
+            const orderData = await OrderData.find({ vendor, orderStatus: "Placed" });
             res.status(200).json({ orderData });
             
         } catch (error) {
