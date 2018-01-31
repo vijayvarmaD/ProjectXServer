@@ -58,9 +58,9 @@ module.exports = {
         try {
             const vendor = req.user._id;
             let orderData = await OrderData.find({ vendor, orderStatus: "Placed" });
-            for(let [index, value] of orderData.entries()) {
-                const custName = await Customer.findById(value.customer, { name: 1 });
-                orderData[index].customerName = custName;
+            for(let item of orderData) {
+                const custName = await Customer.findById(item.customer, { name: 1 });
+                item.customerName = custName;
             } 
             console.log(orderData);
             res.status(200).json({ orderData });
