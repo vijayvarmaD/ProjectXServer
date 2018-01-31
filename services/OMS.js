@@ -20,7 +20,8 @@ module.exports = {
         const { cart } = req.value.body;
         const vendor = req.value.body.vendor;
         const customer = req.user._id;
-        const orderData = new OrderData({ products: cart, customer, vendor: vendor });
+        const orderData = new OrderData({ products: cart, customer, vendor: vendor.toString() });
+        console.log(orderData);
         
         // STEP:2 --> Calculate Total Cost
         var totalAmt = 0;
