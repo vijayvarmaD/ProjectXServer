@@ -67,7 +67,8 @@ module.exports = {
 
         // STEP:5 --> Store the TID & Vendor Id in "OrderData" 
         orderData.transactionId = TData._id;
-        orderData.vendor = vendor;
+        const vendorId = vendor.toString();
+        orderData.vendor = vendorId;
 
         // STEP:6 --> Proceed to Delivery Person Assignment & store in OrderData
         // Setup a logic to choose a delivery person from a pool and then provide DP ID
