@@ -19,9 +19,8 @@ module.exports = {
         // STEP:1 --> Get Order Details
         const { cart } = req.value.body;
         const vendor = req.value.body.vendor;
-        console.log(vendor);
         const customer = req.user._id;
-        const orderData = new OrderData({ products: cart, customer });
+        const orderData = new OrderData({ products: cart, customer, vendor: vendor });
         
         // STEP:2 --> Calculate Total Cost
         var totalAmt = 0;
@@ -65,10 +64,8 @@ module.exports = {
         });
 
 
-        // STEP:5 --> Store the TID & Vendor Id in "OrderData" 
+        // STEP:5 --> Store the TID in "OrderData" 
         orderData.transactionId = TData._id;
-        const vendorId = vendor.toString();
-        orderData.vendor = vendorId;
 
         // STEP:6 --> Proceed to Delivery Person Assignment & store in OrderData
         // Setup a logic to choose a delivery person from a pool and then provide DP ID
