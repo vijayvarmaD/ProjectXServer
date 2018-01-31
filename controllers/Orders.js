@@ -58,7 +58,7 @@ module.exports = {
         try {
             const vendor = req.user._id;
             let orderData = await OrderData.find({ vendor, orderStatus: "Placed" });
-            for(let item of orderData) {
+            for(let item of orderData.keys()) {
                 const custName = await Customer.findById(item.customerName, { name: 1 });
                 orderData[index].customerName = custname;
             } 
