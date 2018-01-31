@@ -21,8 +21,9 @@ router.route('/OrderData/id').post([
     OrdersController.orderDataFromId
 ]);
 
-// router.route('/Vendor/CurrentOrders').post([
-//     val
-// ]);
+router.route('/Vendor/CurrentOrders').get([
+    passport.authenticate('vendor-jwt', { session: false }),
+    OrdersController.currentOrdersList4Vendor
+]);
 
 module.exports = router;
