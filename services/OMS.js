@@ -19,6 +19,7 @@ module.exports = {
         // STEP:1 --> Get Order Details
         const { cart } = req.value.body;
         const vendor = req.value.body.vendor;
+        console.log(vendor);
         const customer = req.user._id;
         const orderData = new OrderData({ products: cart, customer });
         
