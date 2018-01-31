@@ -57,8 +57,9 @@ module.exports = {
     currentOrdersList4Vendor: async (req, res, next) => {
         try {
             const vendor = req.user._id;
-            const orderData = await OrderData.find({ vendor, orderStatus: "Placed" });
+            let orderData = await OrderData.find({ vendor, orderStatus: "Placed" });
             orderData.customerName = await Customer.findById(orderData.customer, { name: 1 });
+            console.log(orderData);
             res.status(200).json({ orderData });
             
         } catch (error) {
